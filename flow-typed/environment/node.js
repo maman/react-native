@@ -2459,6 +2459,13 @@ declare class stream$Readable extends stream$Stream {
     options?: readableStreamOptions,
   ): stream$Readable;
 
+  static fromWeb(
+    readableStream: ReadableStream,
+    options?: readableStreamOptions,
+  ): stream$Readable;
+
+  static toWeb(streamReadable: stream$Readable): ReadableStream;
+
   constructor(options?: readableStreamOptions): void;
   destroy(error?: Error): this;
   isPaused(): boolean;
@@ -2504,6 +2511,13 @@ type writableStreamOptions = {
   ...
 };
 declare class stream$Writable extends stream$Stream {
+  static fromWeb(
+    writableStream: WritableStream,
+    options?: writableStreamOptions,
+  ): stream$Writable;
+
+  static toWeb(streamWritable: stream$Writable): WritableStream;
+
   constructor(options?: writableStreamOptions): void;
   cork(): void;
   destroy(error?: Error): this;
@@ -2559,6 +2573,21 @@ type duplexStreamOptions = writableStreamOptions &
     ...
   };
 declare class stream$Duplex extends stream$Readable mixins stream$Writable {
+  static fromWeb(
+    pair: {
+      readable: ReadableStream,
+      writable: WritableStream,
+      ...
+    },
+    options?: duplexStreamOptions,
+  ): stream$Duplex;
+
+  static toWeb(streamDuplex: stream$Duplex): {
+    readable: ReadableStream,
+    writable: WritableStream,
+    ...
+  };
+
   constructor(options?: duplexStreamOptions): void;
 }
 type transformStreamOptions = duplexStreamOptions & {
